@@ -1,0 +1,44 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "common.fullname" . -}}
+{{- $middlewares := list }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  annotations:
+  {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.httpBasicAuth.enabled }}
+    {{- $middlewares = append $middlewares (printf "%s-%s-http-basic-auth@kubernetescrd" .Release.Namespace $fullName) }}
+  {{- end }}
+  {{- if .Values.httpWwwRedirect.enabled }}
+    {{- $middlewares = append $middlewares (printf "%s-%s-http-www-redirect@kubernetescrd" .Release.Namespace $fullName) }}
+  {{- end }}
+  {{- if ne (len $middlewares) 0 }}
+    traefik.ingress.kubernetes.io/router.middlewares: {{ join ", " $middlewares }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingressClassName }}
+  {{- if .Values.service.tls.enabled }}
+  tls:
+    - hosts:
+      {{- range .Values.ingress.hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ $fullName }}-tls
+  {{- end }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  name: http
+            path: /
+            pathType: ImplementationSpecific
+    {{- end }}
+{{- end }}
