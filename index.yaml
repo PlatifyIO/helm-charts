@@ -2,6 +2,17 @@ apiVersion: v1
 entries:
   common:
   - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2024-05-07T15:42:59.519288791Z"
+    description: A Helm chart for Kubernetes
+    digest: 32a63173f4538ca66b3ee46b19712bc7a86b6b002377cd037fe391d33f7db18e
+    icon: https://cncf-branding.netlify.app/img/projects/helm/horizontal/color/helm-horizontal-color.png
+    name: common
+    type: application
+    urls:
+    - https://github.com/PlatifyIO/helm-charts/releases/download/common-1.0.1/common-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     appVersion: 0.0.25
     created: "2024-05-07T15:30:24.695901451Z"
     description: A Helm chart for Kubernetes
@@ -12,4 +23,4 @@ entries:
     urls:
     - https://github.com/PlatifyIO/helm-charts/releases/download/common-0.0.31/common-0.0.31.tgz
     version: 0.0.31
-generated: "2024-05-07T15:30:24.695907182Z"
+generated: "2024-05-07T15:42:59.519299351Z"
