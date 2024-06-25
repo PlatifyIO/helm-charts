@@ -18,4 +18,6 @@ metadata:
 spec:
   basicAuth:
     secret: {{ $fullName }}-http-basic-auth-users-list
+    headerField: X-WebAuth-User
+    realm: {{ $fullName }}
 {{- end }}
